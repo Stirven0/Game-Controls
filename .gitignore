@@ -1,0 +1,78 @@
+# ----------- Built application files -----------
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# ----------- ART / Dalvik -----------
+*.dex
+*.class
+
+# ----------- Generated folders -----------
+/bin/
+/gen/
+/out/
+
+# ----------- Gradle -----------
+.gradle/
+**/build/
+**/.gradle/
+
+# ----------- Local configuration -----------
+local.properties
+gradle-app.setting
+
+# ----------- Proguard (legacy) -----------
+proguard/
+
+# ----------- Logs -----------
+*.log
+
+# ----------- Android Studio / IDE -----------
+*.iml
+.idea/
+**/.idea/
+.navigation/
+**/navigation/
+captures/
+**/captures/
+
+# ----------- AndroidIDE -----------
+.androidide/
+
+# ----------- Native / NDK -----------
+**/.cxx/
+**/.externalNativeBuild/
+**/.cmake/
+
+# ----------- Lint & temp -----------
+**/lint/
+**/tmp/
+
+# ----------- OS files -----------
+.DS_Store
+Thumbs.db
+
+# ----------- Keystore / secrets -----------
+*.jks
+*.keystore
+google-services.json
+
+# ----------- fastlane -----------
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
+
+# ----------- Freeline -----------
+freeline.py
+freeline/
+freeline_project_description.json
+
+# ----------- Version control (IDE) -----------
+vcs.xml
+
+# ----------- Gradle 8+ deprecations (safe) -----------
+.gradle/configuration-cache/
+kotlin-profile/
