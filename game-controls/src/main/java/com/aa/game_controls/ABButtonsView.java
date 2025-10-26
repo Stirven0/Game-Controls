@@ -1,4 +1,4 @@
-package com.aa.game_controllers;
+package com.aa.game_controls;
 
 import android.content.Context;
 import android.graphics.Canvas;

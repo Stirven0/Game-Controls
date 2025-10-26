@@ -1,4 +1,4 @@
-package com.aa.game_controllers;
+package com.aa.game_controls;
 
 public enum EnumControlProfile {
     JOYSTICK_ONLY,

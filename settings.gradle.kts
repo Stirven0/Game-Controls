@@ -11,12 +11,11 @@ dependencyResolutionManagement {
   repositories {
     google()
     mavenCentral()
+    maven { url = uri("https://jitpack.io") }
   }
 }
 
-rootProject.name = "Game Controls Proyect"
-include(
-  ":crash-handler",
-  ":Game Controllers"
-)
+rootProject.name = "Game Controls"
+
 include(":app")
+include(":game-controls")

@@ -1,7 +1,7 @@
-package com.aa.game_controllers;
+package com.aa.game_controls;
 import android.app.Activity;
-import com.aa.game_controllers.ABButtonsView;
-import com.aa.game_controllers.Joystick;
+import com.aa.game_controls.ABButtonsView;
+import com.aa.game_controls.Joystick;
 
 public class ControlsManager {
     public static void setup(Activity activity,

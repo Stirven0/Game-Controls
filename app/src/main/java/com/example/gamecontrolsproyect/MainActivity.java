@@ -3,8 +3,8 @@ package com.example.gamecontrolsproyect;
 import android.graphics.Color;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.aa.game_controllers.Joystick;
-import com.aa.game_controllers.ABButtonsView;
+import com.aa.game_controls.Joystick;
+import com.aa.game_controls.ABButtonsView;
 import com.example.gamecontrolsproyect.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity

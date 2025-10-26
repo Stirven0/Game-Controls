@@ -42,8 +42,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":crash-handler"))
-    implementation(project(":Game Controllers"))
+    implementation(project(":game-controls"))
+    implementation("com.github.Stirven0:Crash-Handler:v0.0.3")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("com.google.android.material:material:1.12.0")

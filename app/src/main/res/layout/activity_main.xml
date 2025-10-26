@@ -9,7 +9,7 @@
          android:layout_width="match_parent"
          android:id="@+id/gameView" />
 
-    <com.aa.game_controllers.Joystick
+    <com.aa.game_controls.Joystick
          android:layout_height="200dp"
          android:layout_width="200dp"
          android:layout_margin="20dp"
@@ -17,7 +17,7 @@
          android:layout_alignParentStart="true"
          android:id="@+id/joystick" />
 
-    <com.aa.game_controllers.ABButtonsView
+    <com.aa.game_controls.ABButtonsView
          android:layout_height="200dp"
          android:layout_width="200dp"
          android:layout_margin="20dp"
