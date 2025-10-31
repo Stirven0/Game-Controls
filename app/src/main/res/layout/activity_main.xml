@@ -16,13 +16,10 @@
          android:layout_alignParentBottom="true"
          android:layout_alignParentStart="true"
          android:id="@+id/joystick" />
-
-    <com.aa.game_controls.ABButtonsView
-         android:layout_height="200dp"
-         android:layout_width="200dp"
-         android:layout_margin="20dp"
-         android:layout_alignParentEnd="true"
-         android:layout_alignParentBottom="true"
-         android:id="@+id/abButtons" />
+         
+    <com.aa.game_controls.GameButtonsView
+        android:id="@+id/gameButtons"
+        android:layout_width="200dp"
+        android:layout_height="300dp"/>
 
 </RelativeLayout>

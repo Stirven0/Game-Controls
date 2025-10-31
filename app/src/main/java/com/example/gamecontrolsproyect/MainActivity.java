@@ -3,16 +3,17 @@ package com.example.gamecontrolsproyect;
 import android.graphics.Color;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.aa.game_controls.GameButtonsView;
 import com.aa.game_controls.Joystick;
-import com.aa.game_controls.ABButtonsView;
+
 import com.example.gamecontrolsproyect.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity
-        implements Joystick.JoystickListener, ABButtonsView.ABListener {
+        implements Joystick.JoystickListener, GameButtonsView.ButtonsListener {
     private ActivityMainBinding binding;
 
     private GameView gameView;
-//    private Joystick joystick;
+    private GameButtonsView buttons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,16 @@ public class MainActivity extends AppCompatActivity
         // Inflate and get instance of binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         gameView = binding.gameView;
-//        joystick = binding.joystick;
+        buttons = binding.gameButtons;
+        buttons.addButton(1, 50f, 60f, Color.RED, null, "R");
+        buttons.addButton(2, 50f, 60f, Color.BLUE, null, "B");
+        buttons.addButton(3, 50f, 60f, Color.BLUE, null, "B");
+        buttons.addButton(4, 50f, 60f, Color.BLUE, null, "B");
+
+        buttons.addButton(5, 50f, 60f, Color.RED, null, "R");
+        buttons.addButton(6, 50f, 60f, Color.BLUE, null, "B");
+        buttons.addButton(7, 50f, 60f, Color.BLUE, null, "B");
+        buttons.addButton(8, 50f, 60f, Color.BLUE, null, "B");
 
         // set content view to binding's root
         setContentView(binding.getRoot());
@@ -39,12 +49,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAButtonPressed() {
-        gameView.setPlayerColor(Color.BLUE);
+    public void onButtonPressed(int buttonId) {
+        switch(buttonId){
+            case 1:
+                gameView.setPlayerColor(Color.RED);
+                break;
+            case 2:
+                gameView.setPlayerColor(Color.BLUE);
+                break;
+        }
     }
 
     @Override
-    public void onBButtonPressed() {
-        gameView.setPlayerColor(Color.YELLOW);
-    }
+    public void onButtonReleased(int buttonId) {}
 }
