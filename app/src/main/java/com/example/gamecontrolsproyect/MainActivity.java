@@ -25,14 +25,7 @@ public class MainActivity extends AppCompatActivity
         buttons = binding.gameButtons;
         buttons.addButton(1, 50f, 60f, Color.RED, null, "R");
         buttons.addButton(2, 50f, 60f, Color.BLUE, null, "B");
-        buttons.addButton(3, 50f, 60f, Color.BLUE, null, "B");
-        buttons.addButton(4, 50f, 60f, Color.BLUE, null, "B");
-
-        buttons.addButton(5, 50f, 60f, Color.RED, null, "R");
-        buttons.addButton(6, 50f, 60f, Color.BLUE, null, "B");
-        buttons.addButton(7, 50f, 60f, Color.BLUE, null, "B");
-        buttons.addButton(8, 50f, 60f, Color.BLUE, null, "B");
-
+        
         // set content view to binding's root
         setContentView(binding.getRoot());
     }
