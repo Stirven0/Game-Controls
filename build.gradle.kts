@@ -5,7 +5,7 @@ plugins {
 }
 
 // Centraliza la versión de todos los módulos
-extra["libVersion"] = "0.0.3"
+extra["libVersion"] = "0.0.4"
 
 tasks.register<Delete>("cleanAll") {
     group       = "build"

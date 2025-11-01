@@ -87,7 +87,7 @@ public class Joystick extends SurfaceView implements View.OnTouchListener {
             joystickCallback = (JoystickListener) context;
         }
         
-        setZOrderOnTop(true);
+        setZOrderOnTop(false);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         setFocusable(true);
         setFocusableInTouchMode(true);
