@@ -15,11 +15,14 @@
          android:layout_margin="20dp"
          android:layout_alignParentBottom="true"
          android:layout_alignParentStart="true"
-         android:id="@+id/joystick" />
+         android:id="@+id/joystickOld" />
          
-    <com.aa.game_controls.GameButtonsView
-        android:id="@+id/gameButtons"
-        android:layout_width="200dp"
-        android:layout_height="300dp"/>
+    <com.aa.game_controls.joystick.Joystick
+         android:layout_height="200dp"
+         android:layout_width="200dp"
+         android:layout_margin="20dp"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentEnd="true"
+         android:id="@+id/joystickNew" />
 
 </RelativeLayout>
