@@ -2,26 +2,47 @@ package com.aa.game_controls.joystick;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.aa.game_controls.base.GameControlBase;
-import com.aa.game_controls.base.ControlConfig;
 
 public class Joystick extends GameControlBase {
-    
-    private float centerX, centerY, baseRadius, hatRadius;
-    private float joystickX, joystickY;
-    private JoystickListener joystickCallback;
-    private Paint basePaint, hatPaint;
-    private JoystickConfig joystickConfig;
 
+    /* ---------- Interfaz completa ---------- */
     public interface JoystickListener {
         void onJoystickMoved(float xPercent, float yPercent, int id);
+
+        /* Nuevos eventos (default para no romper implementaciones anteriores) */
+        default void onJoystickDown  (float xPercent, float yPercent, int id) { }
+        default void onJoystickUp    (float xPercent, float yPercent, int id) { }
+        default void onJoystickReturn(int id) { }
+        default void onJoystickDoubleTap(float xPercent, float yPercent, int id) { }
+        default void onJoystickLongPress(float xPercent, float yPercent, int id) { }
     }
 
+    /* ---------- Variables visuales ---------- */
+    private float centerX, centerY, baseRadius, hatRadius;
+    private float joystickX, joystickY;
+
+    private Paint basePaint, hatPaint;
+    private JoystickConfig joystickConfig;
+    private JoystickListener joystickCallback;
+
+    /* ---------- Variables para gestos ---------- */
+    private long downTime, lastTapTime;
+    private int  tapCount;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable longPressRunnable;
+
+    private static final int DOUBLE_TAP_WINDOW = 300; // ms
+    private static final int LONG_PRESS_TIME   = 500; // ms
+
+    /* ---------- Constructores ---------- */
     public Joystick(Context context) {
         super(context);
         initJoystick(context);
@@ -32,122 +53,147 @@ public class Joystick extends GameControlBase {
         initJoystick(context);
     }
 
+    /* ---------- Inicialización ---------- */
     private void initJoystick(Context context) {
         joystickConfig = new JoystickConfig();
-        
-        if(context instanceof JoystickListener) {
-        	joystickCallback = (JoystickListener)context;
+
+        if (context instanceof JoystickListener) {
+            joystickCallback = (JoystickListener) context;
         }
-        // Paints específicos del joystick
+
         basePaint = new Paint();
         basePaint.setColor(joystickConfig.getBaseColor());
         basePaint.setAlpha(100);
         basePaint.setAntiAlias(true);
-        
+
         hatPaint = new Paint();
         hatPaint.setColor(joystickConfig.getHatColor());
         hatPaint.setAlpha(200);
         hatPaint.setAntiAlias(true);
-        
-        // Configurar como completamente transparente por defecto
+
         setBackgroundTransparent(true);
     }
 
+    /* ---------- Dimensionado ---------- */
     @Override
     protected void setupControlDimensions() {
         centerX = getWidth() / 2f;
         centerY = getHeight() / 2f;
         joystickX = centerX;
         joystickY = centerY;
-        
-        float minDimension = Math.min(getWidth(), getHeight());
-        baseRadius = minDimension * joystickConfig.getBaseRatio();
-        hatRadius = minDimension * joystickConfig.getHatRatio();
-        
-        // Asegurar que el hat no sea más grande que la base
-        if (hatRadius >= baseRadius) {
-            hatRadius = baseRadius * 0.8f;
-        }
+
+        float minDim = Math.min(getWidth(), getHeight());
+        baseRadius = minDim * joystickConfig.getBaseRatio();
+        hatRadius  = minDim * joystickConfig.getHatRatio();
+
+        if (hatRadius >= baseRadius) hatRadius = baseRadius * 0.8f;
     }
 
+    /* ---------- Dibujo ---------- */
     @Override
     protected void drawControl(Canvas canvas) {
-        // SOLO DIBUJAR LOS ELEMENTOS DEL JOYSTICK
-        // El fondo ya fue manejado por clearCanvas() en la clase base
-        
-        // Dibujar base del joystick
         canvas.drawCircle(centerX, centerY, baseRadius, basePaint);
-        
-        // Dibujar "hat" del joystick
-        canvas.drawCircle(joystickX, joystickY, hatRadius, hatPaint);
+        canvas.drawCircle(joystickX, joystickY, hatRadius,  hatPaint);
     }
 
+    /* ---------- Touch completo ---------- */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!config.isEnabled()) return false;
-        
+
         float x = event.getX();
         float y = event.getY();
-        
-        switch(event.getAction()) {
+        float px = (x - centerX) / baseRadius;
+        float py = (y - centerY) / baseRadius;
+
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                downTime = SystemClock.elapsedRealtime();
+
+                /* Doble-tap */
+                if (SystemClock.elapsedRealtime() - lastTapTime < DOUBLE_TAP_WINDOW) {
+                    tapCount++;
+                    if (tapCount == 2 && joystickCallback != null)
+                        joystickCallback.onJoystickDoubleTap(px, py, getId());
+                } else {
+                    tapCount = 1;
+                }
+                lastTapTime = SystemClock.elapsedRealtime();
+
+                /* Long-press */
+                longPressRunnable = () -> {
+                    if (joystickCallback != null)
+                        joystickCallback.onJoystickLongPress(px, py, getId());
+                };
+                handler.postDelayed(longPressRunnable, LONG_PRESS_TIME);
+
+                /* Notificar down */
+                if (joystickCallback != null)
+                    joystickCallback.onJoystickDown(px, py, getId());
+                return true;
+
             case MotionEvent.ACTION_MOVE:
-                float displacement = (float) Math.sqrt(
-                    Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-                
-                if(displacement < baseRadius) {
+                float dx = x - centerX;
+                float dy = y - centerY;
+                float displacement = (float) Math.sqrt(dx * dx + dy * dy);
+
+                if (displacement <= baseRadius) {
                     joystickX = x;
                     joystickY = y;
                 } else {
                     float ratio = baseRadius / displacement;
-                    joystickX = centerX + (x - centerX) * ratio;
-                    joystickY = centerY + (y - centerY) * ratio;
+                    joystickX = centerX + dx * ratio;
+                    joystickY = centerY + dy * ratio;
                 }
-                
-                if(joystickCallback != null) {
-                    joystickCallback.onJoystickMoved(
-                        (joystickX - centerX) / baseRadius,
-                        (joystickY - centerY) / baseRadius,
-                        getId()
-                    );
+
+                if (joystickCallback != null) {
+                    float xPct = (joystickX - centerX) / baseRadius;
+                    float yPct = (joystickY - centerY) / baseRadius;
+                    joystickCallback.onJoystickMoved(xPct, yPct, getId());
                 }
                 break;
-                
+
             case MotionEvent.ACTION_UP:
-                joystickX = centerX;
-                joystickY = centerY;
-                if(joystickCallback != null) {
-                    joystickCallback.onJoystickMoved(0, 0, getId());
+                handler.removeCallbacks(longPressRunnable);
+
+                if (joystickCallback != null)
+                    joystickCallback.onJoystickUp(px, py, getId());
+
+                /* Volver al centro */
+                if (joystickConfig.isReturnToCenter()) {
+                    joystickX = centerX;
+                    joystickY = centerY;
+                    if (joystickCallback != null)
+                        joystickCallback.onJoystickReturn(getId());
                 }
                 break;
         }
-        
+
         requestRedraw();
         return true;
     }
 
-    // === MÉTODOS ESPECÍFICOS DEL JOYSTICK ===
-    
-    public void setJoystickListener(JoystickListener listener) {
-        this.joystickCallback = listener;
+    /* ---------- API pública ---------- */
+    public void setJoystickListener(JoystickListener l) {
+        this.joystickCallback = l;
     }
-    
+
     public void setBaseColor(int color) {
         basePaint.setColor(color);
         requestRedraw();
     }
-    
+
     public void setHatColor(int color) {
         hatPaint.setColor(color);
         requestRedraw();
     }
-    
+
     public void setBaseSizeRatio(float ratio) {
         joystickConfig.setBaseRatio(ratio);
         setupControlDimensions();
         requestRedraw();
     }
-    
+
     public void setHatSizeRatio(float ratio) {
         joystickConfig.setHatRatio(ratio);
         setupControlDimensions();

@@ -8,14 +8,6 @@
          android:layout_height="match_parent"
          android:layout_width="match_parent"
          android:id="@+id/gameView" />
-
-    <com.aa.game_controls.Joystick
-         android:layout_height="200dp"
-         android:layout_width="200dp"
-         android:layout_margin="20dp"
-         android:layout_alignParentBottom="true"
-         android:layout_alignParentStart="true"
-         android:id="@+id/joystickOld" />
          
     <com.aa.game_controls.joystick.Joystick
          android:layout_height="200dp"
