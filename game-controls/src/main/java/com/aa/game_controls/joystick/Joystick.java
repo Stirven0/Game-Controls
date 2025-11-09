@@ -136,12 +136,14 @@ public class Joystick extends GameControlBase {
                 float dx = x - centerX;
                 float dy = y - centerY;
                 float displacement = (float) Math.sqrt(dx * dx + dy * dy);
-
-                if (displacement <= baseRadius) {
+            
+                float hatLimit = baseRadius -hatRadius;
+                
+                if (displacement <= hatLimit) {
                     joystickX = x;
                     joystickY = y;
                 } else {
-                    float ratio = baseRadius / displacement;
+                    float ratio = hatLimit / displacement;
                     joystickX = centerX + dx * ratio;
                     joystickY = centerY + dy * ratio;
                 }

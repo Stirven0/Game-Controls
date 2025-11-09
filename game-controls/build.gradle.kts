@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.aa.game_controls"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 29
@@ -19,8 +19,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        dataBinding = true
-        buildConfig = true
     }
     
     publishing {
@@ -32,9 +30,6 @@ android {
 }
 
 dependencies {
-
-    //implementation("com.github.Stirven0:Crash-Handler:v0.0.3")
-    
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.core:core:1.12.0")

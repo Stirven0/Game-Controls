@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Game Controls/game-controls/src/main/java/com/aa/game_controls/joystick/Joystick.java",
+      "selection": {
+        "end": {
+          "column": 55,
+          "index": 4947,
+          "line": 139
+        },
+        "start": {
+          "column": 55,
+          "index": 4947,
+          "line": 139
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Game Controls/game-controls/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 26,
+          "index": 417,
+          "line": 20
+        },
+        "start": {
+          "column": 26,
+          "index": 417,
+          "line": 20
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Game Controls/game-controls/build.gradle.kts"
+}
