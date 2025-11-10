@@ -2,6 +2,8 @@
 
 Biblioteca ligera que añade controles táctiles personalizables a tus juegos o simuladores en Android.
 
+[![](https://jitpack.io/v/Stirven0/Game-Controls.svg)](https://jitpack.io/#Stirven0/Game-Controls)
+
 ## Características
 
 - **Joystick virtual** totalmente personalizable
